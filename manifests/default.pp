@@ -1,4 +1,4 @@
-$web = ["nginx"]
+$web = ["nginx", "nodejs"]
 $java = ["openjdk-7-jre"]
 
 package { $web: 
