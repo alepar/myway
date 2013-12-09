@@ -1,7 +1,3 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
-
-
 Vagrant.configure("2") do |config|
 
   config.vm.box = "precise32"
@@ -13,15 +9,12 @@ Vagrant.configure("2") do |config|
     vb.customize ["modifyvm", :id, "--ioapic", "on"]
   end
 
-  # Forward a port from the guest to the host, which allows for outside
-  # computers to access the VM, whereas host only networking does not.
-  # config.vm.forward_port 80, 8080
-  
-  config.vm.provision :shell, :inline => "apt-get -qq update"
-  config.vm.provision :shell, :inline => "apt-get -y -qq install python-software-properties"
-  config.vm.provision :shell, :inline => "add-apt-repository -y ppa:chris-lea/node.js"
-  config.vm.provision :shell, :inline => "apt-get -qq update"
+  config.vm.network "private_network", ip: "192.168.50.2"
 
+  config.ssh.forward_x11 = true
+  config.ssh.forward_agent = true
+
+  config.vm.provision :shell, :inline => "/vagrant/scripts/add_repos.sh"
   config.vm.provision :puppet
 
 end
