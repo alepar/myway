@@ -1,1 +1,6 @@
 .vagrant
+logs/*
+!.gitkeep
+node_modules/
+tmp
+.DS_Store
