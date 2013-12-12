@@ -1,0 +1,11 @@
+ru\myway\serialization\ResponseProcessors.class
+ru\myway\Routes.class
+ru\myway\Constants.class
+ru\myway\Constants$Url.class
+ru\myway\config\MetricsConfig.class
+ru\myway\config\Configuration.class
+ru\myway\serialization\JsonSerializationProcessor.class
+ru\myway\Main.class
+ru\myway\Constants$Routes.class
+ru\myway\serialization\XmlSerializationProcessor.class
+ru\myway\controller\SampleController.class
