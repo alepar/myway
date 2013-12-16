@@ -5,14 +5,14 @@ import org.jboss.netty.handler.codec.http.HttpMethod;
 import com.strategicgains.restexpress.RestExpress;
 import ru.myway.config.Configuration;
 
-public abstract class Routes
-{
-	public static void define(Configuration config, RestExpress server)
-    {
-		//TODO: Your routes here...
-		server.uri("/your/route/here/{sampleId}.{format}", config.getSampleController())
+public class Routes {
+
+    private Routes() { }
+
+    public static void define(Configuration config, RestExpress server) {
+		server.uri("/helloworld/{sampleId}.{format}", config.getSampleController())
 			.method(HttpMethod.GET, HttpMethod.PUT, HttpMethod.DELETE)
-			.name(Constants.Routes.SINGLE_SAMPLE);
+			.name("hello world");
 
 //		server.uri("/your/collection/route/here.{format}", config.getSampleController())
 //			.action("readAll", HttpMethod.GET)

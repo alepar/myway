@@ -20,8 +20,7 @@ public class MetricsConfig
 	private Integer publishSeconds;
 	private String prefix;
 
-	public MetricsConfig(Properties p)
-	{
+	public MetricsConfig(Properties p) {
 		isEnabled = Boolean.parseBoolean(p.getProperty(METRICS_IS_ENABLED_PROPERTY, "true"));
 		if (!isEnabled) return;
 
@@ -30,65 +29,51 @@ public class MetricsConfig
 		
 		prefix = p.getProperty(METRICS_PREFIX_PROPERTY);
 		
-		if (prefix == null)
-		{
+		if (prefix == null) {
 			throw new ConfigurationException("Please define a metrics prefix for property: " + METRICS_PREFIX_PROPERTY);
 		}
 
 		graphiteHost = p.getProperty(GRAPHITE_HOST_PROPERTY);
 
-		if (graphiteHost == null)
-		{
+		if (graphiteHost == null) {
 			throw new ConfigurationException("Please define a graphite host for property: " + GRAPHITE_HOST_PROPERTY);
 		}
 
-		try
-		{
+		try {
 			graphitePort = Integer.parseInt(p.getProperty(GRAPHITE_PORT_PROPERTY));
-		}
-		catch (NumberFormatException e)
-		{
+		} catch (NumberFormatException e) {
 			throw new ConfigurationException("Please define a graphite port for property: " + GRAPHITE_PORT_PROPERTY, e);
 		}
 
-		try
-		{
+		try {
 			publishSeconds = Integer.parseInt(p.getProperty(GRAPHITE_PUBLISHING_SECONDS_PROPERTY));
-		}
-		catch (NumberFormatException e)
-		{
+		} catch (NumberFormatException e) {
 			throw new ConfigurationException("Please define how frequently (in seconds) to publish to graphite in property: "
 			        + GRAPHITE_PUBLISHING_SECONDS_PROPERTY, e);
 		}
 	}
 
-	public boolean isEnabled()
-	{
+	public boolean isEnabled() {
 		return isEnabled;
 	}
 
-	public boolean isGraphiteEnabled()
-	{
+	public boolean isGraphiteEnabled() {
 		return isGraphiteEnabled;
 	}
 
-	public String getGraphiteHost()
-	{
+	public String getGraphiteHost() {
 		return graphiteHost;
 	}
 
-	public Integer getGraphitePort()
-	{
+	public Integer getGraphitePort() {
 		return graphitePort;
 	}
 
-	public Integer getPublishSeconds()
-	{
+	public Integer getPublishSeconds() {
 		return publishSeconds;
 	}
 	
-	public String getPrefix()
-	{
+	public String getPrefix() {
 		return prefix;
 	}
 }

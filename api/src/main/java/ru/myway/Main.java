@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.concurrent.TimeUnit;
 
+import com.strategicgains.restexpress.response.ErrorResponseWrapper;
+import com.strategicgains.restexpress.response.ResponseProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,31 +24,27 @@ import com.strategicgains.restexpress.plugin.metrics.MetricsPlugin;
 import com.strategicgains.restexpress.plugin.route.RoutesMetadataPlugin;
 import ru.myway.config.Configuration;
 import ru.myway.config.MetricsConfig;
-import ru.myway.serialization.ResponseProcessors;
+import ru.myway.serialization.JsonSerializationProcessor;
 import com.strategicgains.restexpress.util.Environment;
 import com.strategicgains.syntaxe.ValidationException;
 
-public class Main
-{
-	private static final String SERVICE_NAME = "TODO: Enter Service Name";
+public class Main {
+	private static final String SERVICE_NAME = "myway api";
 	private static final Logger LOG = LoggerFactory.getLogger(SERVICE_NAME);
 
-	public static void main(String[] args) throws Exception
-	{
-		RestExpress server = initializeServer(args);
+	public static void main(String[] args) throws Exception {
+		final RestExpress server = initializeServer(args);
 		server.awaitShutdown();
 	}
 
-	public static RestExpress initializeServer(String[] args) throws IOException
-	{
-		Configuration config = loadEnvironment(args);
-		RestExpress server = new RestExpress()
+	public static RestExpress initializeServer(String[] args) throws IOException {
+		final Configuration config = loadEnvironment(args);
+        final RestExpress server = new RestExpress()
 				.setName(SERVICE_NAME)
 				.setBaseUrl(config.getBaseUrl())
 				.setDefaultFormat(config.getDefaultFormat())
 				.setExecutorThreadCount(config.getExecutorThreadPoolSize())
-				.putResponseProcessor(Format.JSON, ResponseProcessors.json())
-				.putResponseProcessor(Format.XML, ResponseProcessors.xml())
+				.putResponseProcessor(Format.JSON, new ResponseProcessor(new JsonSerializationProcessor(), new ErrorResponseWrapper()))
 				.addMessageObserver(new SimpleConsoleLogMessageObserver());
 
 		Routes.define(config, server);
@@ -64,18 +62,15 @@ public class Main
 		return server;
     }
 
-	private static void configureMetrics(Configuration config, RestExpress server)
-    {
-		MetricsConfig mc = config.getMetricsConfig();
+	private static void configureMetrics(Configuration config, RestExpress server) {
+		final MetricsConfig mc = config.getMetricsConfig();
 
-	    if (mc.isEnabled())
-		{
+	    if (mc.isEnabled()) {
 	    	MetricRegistry registry = new MetricRegistry();
 			new MetricsPlugin(registry)
 				.register(server);
 
-			if (mc.isGraphiteEnabled())
-			{
+			if (mc.isGraphiteEnabled()) {
 				final Graphite graphite = new Graphite(new InetSocketAddress(mc.getGraphiteHost(), mc.getGraphitePort()));
 				final GraphiteReporter reporter = GraphiteReporter.forRegistry(registry)
 					.prefixedWith(mc.getPrefix())
@@ -84,29 +79,20 @@ public class Main
 					.filter(MetricFilter.ALL)
 					.build(graphite);
 				reporter.start(mc.getPublishSeconds(), TimeUnit.SECONDS);
-			}
-			else
-			{
+			} else {
 				LOG.warn("*** Graphite Metrics Publishing is Disabled ***");
 			}
-		}
-		else
-		{
+		} else {
 			LOG.warn("*** Metrics Generation is Disabled ***");
 		}
     }
 
-    private static void mapExceptions(RestExpress server)
-    {
-    	server
-	    	.mapException(ValidationException.class, BadRequestException.class);
+    private static void mapExceptions(RestExpress server) {
+    	server.mapException(ValidationException.class, BadRequestException.class);
     }
 
-	private static Configuration loadEnvironment(String[] args)
-    throws FileNotFoundException, IOException
-    {
-	    if (args.length > 0)
-		{
+	private static Configuration loadEnvironment(String[] args) throws IOException {
+	    if (args.length > 0) {
 			return Environment.from(args[0], Configuration.class);
 		}
 

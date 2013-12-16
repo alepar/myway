@@ -3,40 +3,21 @@ package ru.myway.controller;
 import com.strategicgains.restexpress.Request;
 import com.strategicgains.restexpress.Response;
 
-public class SampleController
-{
-	public SampleController()
-	{
-		super();
-	}
+public class SampleController {
 
-	public Object create(Request request, Response response)
-	{
-		//TODO: Your 'create' logic here...
+	public Object create(Request request, Response response) {
 		return null;
 	}
 
-	public Object read(Request request, Response response)
-	{
-		//TODO: Your 'read' logic here...
-		return null;
+	public Object read(Request request, Response response) {
+		return request.getHeader("sampleId");
 	}
 
-//	public LinkableCollection<Object> readAll(Request request, Response response)
-//	{
-//		//TODO: Your 'readAll' logic here...
-//		return null;
-//	}
-
-	public void update(Request request, Response response)
-	{
-		//TODO: Your 'update' logic here...
+	public void update(Request request, Response response) {
 		response.setResponseNoContent();
 	}
 
-	public void delete(Request request, Response response)
-	{
-		//TODO: Your 'delete' logic here...
+	public void delete(Request request, Response response) {
 		response.setResponseNoContent();
 	}
 }
