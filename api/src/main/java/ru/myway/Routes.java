@@ -10,7 +10,7 @@ public class Routes {
     private Routes() { }
 
     public static void define(Configuration config, RestExpress server) {
-		server.uri("/helloworld/{sampleId}.{format}", config.getSampleController())
+		server.uri("/api/helloworld/{sampleId}.{format}", config.getSampleController())
 			.method(HttpMethod.GET, HttpMethod.PUT, HttpMethod.DELETE)
 			.name("hello world");
 

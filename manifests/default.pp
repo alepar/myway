@@ -1,6 +1,7 @@
 $nginx_conf = "/etc/nginx/nginx.conf"
+
 $web = ["nginx", "nodejs"]
-$java = ["openjdk-7-jre"]
+$java = ["openjdk-7-jdk", "maven"]
 
 package { $web: 
 	ensure => "installed" 

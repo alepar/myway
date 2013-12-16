@@ -1,6 +1,5 @@
 package ru.myway;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.concurrent.TimeUnit;
@@ -48,7 +47,7 @@ public class Main {
 				.addMessageObserver(new SimpleConsoleLogMessageObserver());
 
 		Routes.define(config, server);
-		configureMetrics(config, server);
+//		configureMetrics(config, server);
 
 		new RoutesMetadataPlugin()							// Support basic discoverability.
 				.register(server)
