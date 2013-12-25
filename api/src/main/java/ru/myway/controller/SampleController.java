@@ -3,6 +3,7 @@ package ru.myway.controller;
 import com.strategicgains.restexpress.Request;
 import com.strategicgains.restexpress.Response;
 
+@SuppressWarnings("UnusedDeclaration")
 public class SampleController {
 
 	public Object create(Request request, Response response) {
@@ -10,7 +11,7 @@ public class SampleController {
 	}
 
 	public Object read(Request request, Response response) {
-		return request.getHeader("sampleId");
+        return new Holder(request.getHeader("sampleId") + " world");
 	}
 
 	public void update(Request request, Response response) {
@@ -20,4 +21,12 @@ public class SampleController {
 	public void delete(Request request, Response response) {
 		response.setResponseNoContent();
 	}
+
+    private static class Holder {
+        private final String name;
+
+        private Holder(String name) {
+            this.name = name;
+        }
+    }
 }

@@ -1,9 +1,13 @@
 'use strict';
 
-/* Services */
+var mywayServices = angular.module('mywayServices', ['ngResource']);
 
+mywayServices.factory('User', ['$resource',
+    function($resource){
+        return $resource('api/helloworld/:sampleId.json', {}, {
+            query: {method:'GET', params:{sampleId:'123'}, isArray:true}
+        });
+    }]);
 
-// Demonstrate how to register services
-// In this case it is a simple value service.
-angular.module('myApp.services', []).
-  value('version', '0.1');
+mywayServices.
+    value('version', '0.1');

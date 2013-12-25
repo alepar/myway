@@ -1,11 +1,7 @@
 'use strict';
 
-/* Controllers */
+var mywayControllers = angular.module('mywayControllers', []);
 
-angular.module('myApp.controllers', []).
-  controller('MyCtrl1', [function() {
-
-  }])
-  .controller('MyCtrl2', [function() {
-
-  }]);
+mywayControllers.controller('UserDetailCtrl', ['$scope', '$routeParams', 'User', function($scope, $routeParams, User) {
+    $scope.user = User.get({sampleId: 'hey'});
+}]);

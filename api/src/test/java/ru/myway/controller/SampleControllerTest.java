@@ -8,11 +8,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
 import com.strategicgains.restexpress.RestExpress;
 import ru.myway.Main;
@@ -50,7 +46,7 @@ public class SampleControllerTest {
         httpClient = null;
     }
 
-    @Test
+    @Test @Ignore
     public void postDirectiveReplayRequest() throws IOException {
         HttpGet getRequest = new HttpGet(BASE_URL + "/your/route/here/123.json");
         final HttpResponse response = httpClient.execute(getRequest);
